@@ -260,6 +260,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by regdate) as c;
 	</select>
 	
-	
-	
 </mapper>

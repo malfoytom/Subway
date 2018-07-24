@@ -1,5 +1,6 @@
 package com.hk.th.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -317,7 +318,5 @@ public class ManagerDaoImpl implements ManagerDao{
 		int dbres = sqlSession.selectOne(ns+"salesListCount");
 		return dbres;
 	}
-
-	
 
 }

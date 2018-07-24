@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,6 +33,7 @@ import com.hk.th.vo.SubwayVo;
 /**
  * Handles requests for the application home page.
  */
+
 @Controller
 public class ManagerController {
 	
@@ -43,10 +42,9 @@ public class ManagerController {
 	@Resource(name="ManagerService")
 	private ManagerService mansv;
 	
-	
 	//최초 (관리자미등록) 페이지
 	@RequestMapping(value = "/manager/manMain.do", method = RequestMethod.GET)
-	public String manMain(Locale locale, Model model, HttpSession session) {
+	public String manMain(Model model, HttpSession session) {
 		
 		/*
 		int res = mansv.getManager();
@@ -65,14 +63,14 @@ public class ManagerController {
 	
 	//관리자등록폼
 	@RequestMapping(value = "/manager/manInsertForm.do", method = RequestMethod.GET)
-	public String manInsert(Locale locale, Model model) {
+	public String manInsert(Model model) {
 			
 		return "/manager/manInsertForm";
 	}
 	
 	//관리자등록
 	@RequestMapping(value = "/manager/manInsert.do", method = RequestMethod.GET)
-	public String manInsert(Locale locale, Model model, ManagerVo manvo, HttpServletResponse response) throws Throwable {
+	public String manInsert(Model model, ManagerVo manvo, HttpServletResponse response) throws Throwable {
 				
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -91,14 +89,14 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/manager/afterReg.do", method = RequestMethod.GET)
-	public String afterReg(Locale locale, Model model) {
+	public String afterReg(Model model) {
 			
 		return "/manager/afterReg";
 	}
 	
 	//로그인폼
 	@RequestMapping(value = "/manager/manLoginForm.do", method = RequestMethod.GET)
-	public String manLoginForm(HttpServletRequest request, Locale locale, Model model) {
+	public String manLoginForm(HttpServletRequest request, Model model) {
 		
 		
 			
@@ -118,7 +116,7 @@ public class ManagerController {
 			//
 			session.setAttribute("id", vo.getId());
 			
-			return "/manager/manMenu";
+			return "redirect:/manager/manMenu.do";
 		}else{
 			model.addAttribute("loginres", res);
 			return "/manager/manLoginForm";
@@ -128,7 +126,7 @@ public class ManagerController {
 	
 	//로그아웃
 		@RequestMapping(value = "/manager/manLogout.do", method = RequestMethod.GET)
-		public String manLogout(HttpServletRequest request, Locale locale, Model model) {
+		public String manLogout(HttpServletRequest request, Model model) {
 			
 			request.getSession().invalidate(); //로그아웃하면 세션을 삭제
 			return "redirect:/manager/manLoginForm";
@@ -136,10 +134,15 @@ public class ManagerController {
 	
 	//메인메뉴
 	@RequestMapping(value = "/manager/manMenu.do", method = RequestMethod.GET)
-	public String manMenu(HttpServletRequest request,Locale locale, Model model) {
+	public String manMenu(HttpServletRequest request,Model model, HttpSession session) {
+		
 		
 		int Onsale = mansv.CloseNullCount();	
+		String userID = (String)session.getAttribute("id");
+		ManagerVo vo = mansv.getManagerInfo(userID);
+		
 		model.addAttribute("Onsale", Onsale);
+		model.addAttribute("user", vo);
 			
 		return "/manager/manMenu";
 	}
@@ -196,7 +199,7 @@ public class ManagerController {
 	
 	//상품리스트
 	@RequestMapping(value = "/manager/productList.do", method = RequestMethod.GET)
-	public String productList(HttpServletRequest request, Locale locale, Model model) {
+	public String productList(HttpServletRequest request, Model model) {
 			
 		//ArrayList<SubwayVo> res = mansv.getMenulist();
 		//model.addAttribute("productList", res);
@@ -249,7 +252,7 @@ public class ManagerController {
 	
 	//상품등록폼
 	@RequestMapping(value = "/manager/productInsertForm.do", method = RequestMethod.GET)
-	public String productInsertForm(Locale locale, Model model) {
+	public String productInsertForm(Model model) {
 			
 		return "/manager/productInsertForm";
 	}
@@ -340,7 +343,7 @@ public class ManagerController {
 
 	//일별매출
 	@RequestMapping(value = "/manager/salesDaily.do", method = RequestMethod.GET)
-	public String salesDaily(Locale locale, Model model) {
+	public String salesDaily(Model model) {
 
 		//한달전 어제날짜~어제날짜 
 		SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA); // date 포맷형식
@@ -465,35 +468,35 @@ public class ManagerController {
 	}
 	
 	//월별매출
-		@RequestMapping(value = "/manager/salesMonthly.do", method = RequestMethod.GET)
-		public String salesMonthly(HttpServletRequest request, Model model) {
-			
-			//1년전 지난달~지난달 
-			SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM",Locale.KOREA); 
-			Calendar cal = Calendar.getInstance(); 
-			
-			cal.add(Calendar.MONTH, -1);        
-			java.util.Date result_date1 = cal.getTime();
-			String monthAgo = dateForm .format(result_date1); 
-			
-			cal.add(Calendar.MONTH, -11);        
-			java.util.Date result_date2 = cal.getTime();
-			String yearAgo = dateForm .format(result_date2); 
-			
-			model.addAttribute("yearAgo", yearAgo); //1년전
-			model.addAttribute("monthAgo", monthAgo); //한달전
-			
-			
-			//리스트 뿌리기
-			ArrayList<SubwayVo> list = mansv.salesListMonthly();
-			model.addAttribute("list", list);
-			
-			//월별 판매순위
-			ArrayList<SubwayVo> rankList = mansv.getMonthRank(monthAgo);
-			model.addAttribute("rankList", rankList);
-			
-			return "/manager/salesMonthly";
-		}
+	@RequestMapping(value = "/manager/salesMonthly.do", method = RequestMethod.GET)
+	public String salesMonthly(HttpServletRequest request, Model model) {
+		
+		//1년전 지난달~지난달 
+		SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM",Locale.KOREA); 
+		Calendar cal = Calendar.getInstance(); 
+		
+		cal.add(Calendar.MONTH, -1);        
+		java.util.Date result_date1 = cal.getTime();
+		String monthAgo = dateForm .format(result_date1); 
+		
+		cal.add(Calendar.MONTH, -11);        
+		java.util.Date result_date2 = cal.getTime();
+		String yearAgo = dateForm .format(result_date2); 
+		
+		model.addAttribute("yearAgo", yearAgo); //1년전
+		model.addAttribute("monthAgo", monthAgo); //한달전
+		
+		
+		//리스트 뿌리기
+		ArrayList<SubwayVo> list = mansv.salesListMonthly();
+		model.addAttribute("list", list);
+		
+		//월별 판매순위
+		ArrayList<SubwayVo> rankList = mansv.getMonthRank(monthAgo);
+		model.addAttribute("rankList", rankList);
+		
+		return "/manager/salesMonthly";
+	}
 		
 		
 	//월별판매 순위 분리
@@ -550,7 +553,7 @@ public class ManagerController {
 	
 	//주문리스트
 	@RequestMapping(value = "/manager/salesOrderList.do", method = RequestMethod.GET)
-	public String salesOrderList(HttpServletRequest request, Locale locale, Model model) {
+	public String salesOrderList(HttpServletRequest request, Model model) {
 		
 		PagingVo pagingVo = new PagingVo();
 		
@@ -598,7 +601,7 @@ public class ManagerController {
 	
 	//주문상세
 	@RequestMapping(value = "/manager/salesOrderDetail.do", method = RequestMethod.GET)
-	public String salesOrderDetail(HttpServletRequest request, Locale locale, Model model) {
+	public String salesOrderDetail(HttpServletRequest request, Model model) {
 		
 		String ordernum = request.getParameter("ordernum");
 		ArrayList<SubwayVo> orderinfo = mansv.getOrderByOrderNum(ordernum);
@@ -637,7 +640,7 @@ public class ManagerController {
 	
 	//주문취소
 	@RequestMapping(value = "/manager/salesOrderCancle.do", method = RequestMethod.GET)
-	public String salesOrderCancle(HttpServletRequest request, Locale locale, Model model, HttpServletResponse response) throws Throwable {
+	public String salesOrderCancle(HttpServletRequest request, Model model, HttpServletResponse response) throws Throwable {
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -681,7 +684,7 @@ public class ManagerController {
 	
 	//영업시작
 	@RequestMapping(value = "/manager/salesTime.do", method = RequestMethod.GET)
-	public String salesTime(Locale locale, Model model) {
+	public String salesTime(Model model) {
 		
 		int Onsale = mansv.CloseNullCount();	
 		model.addAttribute("Onsale", Onsale);
@@ -723,7 +726,8 @@ public class ManagerController {
 		if(sales.equals("영업시작")){
 			vo.setRegdate(today);
 			vo.setOpentime(todaytime);
-			res = mansv.insertOpen(vo);			
+			res = mansv.insertOpen(vo);
+			request.getSession().setAttribute("Onsale", true);
 		}else if(sales.equals("영업종료")){
 			
 			SubwayVo open = new SubwayVo();
@@ -741,104 +745,11 @@ public class ManagerController {
 			vo.setTotalsal(salesdata.getTotalsal());
 			
 			res = mansv.updateClose(vo);
+			request.getSession().setAttribute("Onsale", false);
 		}
 	
 		return "redirect:/manager/manMenu.do";
 	}
 	
-	//공지문의메인
-	@RequestMapping(value = "/manager/questionboard.do", method = RequestMethod.GET)
-	public String questionboard(Locale locale, Model model) {
-			
-		return "/manager/questionboard";
-	}
-	
-	//문의리스트
-	@RequestMapping(value = "/manager/questionlist.do", method = RequestMethod.GET)
-	public String questionlist(Locale locale, Model model) {
-			
-		return "/manager/questionlist";
-	}
-	
-	//문의상세
-	@RequestMapping(value = "/manager/questiondetail.do", method = RequestMethod.GET)
-	public String questiondetail(Locale locale, Model model) {
-			
-		return "/manager/questiondetail";
-	}
-	
-	//내정보
-	@RequestMapping(value = "/manager/questionmyinfo.do", method = RequestMethod.GET)
-	public String questionmyinfo(Locale locale, Model model) {
-			
-		return "/manager/questionmyinfo";
-	}
-	//내정보(글쓴목록)
-	@RequestMapping(value = "/manager/questionmyinfo1.do", method = RequestMethod.GET)
-	public String questionmyinfo1(Locale locale, Model model) {
-			
-		return "/manager/questionmyinfo1";
-	}
-	//내정보(댓글목록)
-	@RequestMapping(value = "/manager/questionmyinfo2.do", method = RequestMethod.GET)
-	public String questionmyinfo2(Locale locale, Model model) {
-			
-		return "/manager/questionmyinfo2";
-	}
-	
-	//공지리스트
-	@RequestMapping(value = "/manager/questionnotice.do", method = RequestMethod.GET)
-	public String questionnotice(Locale locale, Model model) {
-			
-		return "/manager/questionnotice";
-	}
-	
-	//댓글리스트
-	@RequestMapping(value = "/manager/questionreply.do", method = RequestMethod.GET)
-	public String questionreply(Locale locale, Model model) {
-			
-		return "/manager/questionreply";
-	}
-	
-	//댓글insert
-	@RequestMapping(value = "/manager/replyinsert.do", method = RequestMethod.GET)
-	public String replyinsert(Locale locale, Model model) {
-			
-		return "";
-	}
-	
-	//댓글update
-	@RequestMapping(value = "/manager/replyupdate.do", method = RequestMethod.GET)
-	public String replyupdate(Locale locale, Model model) {
-			
-		return "";
-	}
-	
-	//댓글delete
-	@RequestMapping(value = "/manager/replydelete.do", method = RequestMethod.GET)
-	public String replydelete(Locale locale, Model model) {
-			
-		return "";
-	}
-
-	
-	
-	//문의글작성폼
-	@RequestMapping(value = "/manager/questionwrite.do", method = RequestMethod.GET)
-	public String questionwrite(Locale locale, Model model) {
-			
-		return "/manager/questionwrite";
-	}
-	
-	//문의글작성insert
-	@RequestMapping(value = "/manager/questioninsert.do", method = RequestMethod.GET)
-	public String questioninsert(Locale locale, Model model) {
-			
-		return "/manager/questiondetail";
-	}
-	
-	
-		
-		
 	
 }

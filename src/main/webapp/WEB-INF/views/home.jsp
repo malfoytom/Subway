@@ -55,7 +55,7 @@
           <div class="main-contents">
           	<P>The time on the server is ${serverTime}.</P>
           	<div class="btn-wrap">
-          		<button type="button" onclick="openCheck(res)" class="btn btn-success">키오스크</button>
+          		<button type="button" onclick="location.href='/kiosk/main.do'" class="btn btn-success">키오스크</button>
           		<button type="button" onclick="location.href='/manager/manMain.do'" class="btn btn-success">관리자</button>
           	</div>
           

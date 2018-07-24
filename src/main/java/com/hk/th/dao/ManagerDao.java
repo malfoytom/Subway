@@ -101,5 +101,6 @@ public interface ManagerDao {
 	
 	//매출 갯수
 	public int salesListCount();
+
 	
 }

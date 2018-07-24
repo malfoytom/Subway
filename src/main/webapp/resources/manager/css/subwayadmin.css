@@ -234,7 +234,10 @@ input#search { display: inline-block; width:200px;}
 .search-wrap{text-align: center; margin: 20px 0;}
 .search-wrap .select_type_1{border:0; width:70px;}
 
+.text-left{text-align:left;}
 .table-wrap{min-height:510px;}
+.table-wrap table{text-align:center;}
+.table-wrap table th{text-align:center;}
 .table-wrap span.contentinfo{font-size: 0.9em; color: #666; text-align: inherit; margin-bottom: 0;}
 .table-wrap span.lockico{float: right; display: inline; font-size: 12px; font-weight: bold; color: #999;}
 .table-wrap span.contentinfo{font-size: 0.9em; color: #666; text-align: inherit; margin-bottom: 0;}

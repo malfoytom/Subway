@@ -26,6 +26,7 @@
           <img alt="Brand" src="images/logo_sub_header.png">
         </a>
         <div class="nav-btn-wrap logout">
+
           <div class="logout-btn-wrap"><a href="/manager/manLogout.do"><span class="glyphicon glyphicon-off"></span>${user.name }님 로그아웃</a></div>
           <button onclick="location.href='/manager/manUpdateForm.do?id=${user.id }'" type="button" class="nav-homebtn btn btn-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
         </div>
@@ -49,7 +50,6 @@
             <li><button type="button" onclick="location.href='/manager/productList.do'" class="btn btn-success">상품관리</button></li>
             <li><button type="button" onclick="location.href='/manager/salesDaily.do'" class="btn btn-success">매출관리</button></li>
             <li><button type="button" onclick="location.href='/manager/salesTime.do'" class="btn btn-success">영업관리</button></li>
-            <li><button type="button" onclick="location.href='/manager/questionboard.do'" class="btn btn-success">공지&#38;문의</button></li>
           </ul>
         </div>
       </div>

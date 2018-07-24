@@ -1,5 +1,7 @@
 package com.hk.th.vo;
 
+import java.security.Timestamp;
+
 public class ManagerVo {
 	
 	private String id;
@@ -38,4 +40,6 @@ public class ManagerVo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	
 }

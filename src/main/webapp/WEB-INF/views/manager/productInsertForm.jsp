@@ -27,7 +27,20 @@ function selectEvent(selectObj) {
 	}else{
 		show.innerHTML = '<select class="form-control" name="kind" id="" ><option value="">없음</option></select>';
 	}
+	
+	if(category =='S' || category =='T'){
+		document.getElementById("price30").style.display='';
+	}else{
+		document.getElementById("price30").style.display='none';
+	}
+	/* if(category =='M' || category =='C' || category =='D' || category =='V' || category =='P' || category =='SS'){
+		document.getElementById("price30").style.display='none';
+	}else if(category =='S' || category =='T'){
+		document.getElementById("price30").style.display='block';
+	} */
+	
 }
+
 </script>
 </head>
 <body>
@@ -74,7 +87,7 @@ function selectEvent(selectObj) {
                 <tr>
                   <th>카테고리</th>
                   <td>
-                    <select class="form-control" name="category" id="" onChange="javascript:selectEvent(this)">
+                    <select class="form-control" name="category" id="category" onChange="javascript:selectEvent(this)">
                       <option value="S" selected>샌드위치</option>
                       <option value="M">아침식사</option>
                       <option value="C">찹샐러드</option>
@@ -111,19 +124,17 @@ function selectEvent(selectObj) {
                   <th>가격15</th>
                   <td>
                     <div class="input-group">
-                      <span class="input-group-addon">&#8361;</span>
                       <input name="price15" type="text" class="form-control">
-                      <span class="input-group-addon">.00</span>
+                      <span class="input-group-addon">&#8361;</span>
                     </div>
                   </td>
                 </tr>
-                <tr>
+                <tr id="price30">
                   <th>가격30</th>
                   <td>
                     <div class="input-group">
+                      <input id="" name="price30" type="text" class="form-control" value="">
                       <span class="input-group-addon">&#8361;</span>
-                      <input name="price30" type="text" class="form-control">
-                      <span class="input-group-addon">.00</span>
                     </div>
                   </td>
                 </tr>

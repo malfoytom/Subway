@@ -57,13 +57,19 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/kiosk/index.do", method = RequestMethod.GET)
-	public String index(Locale locale, Model model) {
+	public String index(Model model) {
 					
 		return "/kiosk/index";
 	}
 	
+	@RequestMapping(value = "/kiosk/sorry.do", method = RequestMethod.GET)
+	public String sorry(Model model) {
+		
+		return "/kiosk/sorry";
+	}
+	
 	@RequestMapping(value = "/kiosk/main.do", method = RequestMethod.GET)
-	public String main(Locale locale, Model model) {
+	public String main(Model model) {
 					
 		//임시테이블 비우기
 		service.emptyTable();
@@ -72,13 +78,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/kiosk/menu.do", method = RequestMethod.GET)
-	public String menu(Locale locale, Model model) {
+	public String menu(Model model) {
 		
 		return "/kiosk/menu";
 	}
 	
 	@RequestMapping(value = "/kiosk/menulist.do", method = RequestMethod.GET)
-	public String menulist(Locale locale, Model model) {
+	public String menulist(Model model) {
 		
 		ArrayList<SubwayVo> list = service.getListAll();
 		//System.out.println("컨트롤러"+list.size());
@@ -88,7 +94,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/kiosk/order.do", method = RequestMethod.GET)
-	public String order(Locale locale, Model model){
+	public String order(Model model){
 		//orderlist.do와 내용 동일함
 		//orderlist에 임시테이블 list 출력하기
 		ArrayList<SubwayVo> templist = service.getTempList();
@@ -112,7 +118,7 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/kiosk/orderlist.do", method = RequestMethod.GET)
-	public String orderlist(Locale locale, Model model) {
+	public String orderlist(Model model) {
 		
 		//orderlist에 임시테이블 list 출력하기
 		ArrayList<SubwayVo> templist = service.getTempList();
@@ -137,7 +143,7 @@ public class HomeController {
 	
 	//옵션 리스트 가져오기
 	@RequestMapping(value = "/kiosk/option.do", method = RequestMethod.GET)
-	public String option(Locale locale, Model model) {
+	public String option(Model model) {
 		
 		
 		ArrayList<SubwayVo> list = service.getListAll();
@@ -150,7 +156,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/kiosk/selectmenu.do", method = RequestMethod.GET)
 	public String selectmenu(HttpServletRequest request, Model model, SubwayVo vo) {
-		
+
 		String mid = request.getParameter("mid");
 		String mname = request.getParameter("mname");
 		String price = request.getParameter("price");
@@ -208,6 +214,10 @@ public class HomeController {
 		//System.out.println("insert결과"+res);	
 				
 		return "/kiosk/orderlist";
+			
+			
+		
+		
 	}	
 	
 	//임시테이블에 있는 모든 데이터 삭제 후 메인화면으로 리턴

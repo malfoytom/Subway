@@ -8,18 +8,18 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.hk.th.service.ManagerService;
 
-public class InterCeptorManager extends HandlerInterceptorAdapter {
+public class InterCeptorKiosk extends HandlerInterceptorAdapter {
 	
 	public boolean preHandle(HttpServletRequest request,
 							HttpServletResponse response,
 							Object handler) throws Exception
 	{
 		
-		Object obj = request.getSession().getAttribute("loginflag");
+		Object obj = request.getSession().getAttribute("Onsale");
 		
 		if(obj==null){
 			//로그인이 안되어 있는 상태인 경우 로그인 폼으로(redirect)
-			response.sendRedirect("/manager/manLoginForm.do");
+			response.sendRedirect("/kiosk/sorry.do");
 			return false; //더이상 컨트롤러 요청으로 못가도록 false로 반환
 		}
 		

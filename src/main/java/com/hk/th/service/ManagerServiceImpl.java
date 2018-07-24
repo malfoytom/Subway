@@ -300,7 +300,7 @@ public class ManagerServiceImpl implements ManagerService{
 	@Override
 	public SubwayVo getsalesdata(String opentime) {
 		SubwayVo svres = mandao.getsalesdata(opentime);
-		System.out.println("service: "+svres.getTotalsal());
+		//System.out.println("service: "+svres.getTotalsal());
 		return svres;
 	}
 	
@@ -510,6 +510,6 @@ public class ManagerServiceImpl implements ManagerService{
 		return svres;
 	}
 
-	
+
 	
 }

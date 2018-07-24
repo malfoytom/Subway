@@ -103,6 +103,4 @@ public interface ManagerService {
 	//매출 갯수
 	public int salesListCount();
 
-
-
 }
