@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--관리자 등록  -->
 	<insert id="insertMan" parameterType="com.hk.th.vo.ManagerVo">
-		insert into manager(id, pw, name, hpnum, address) values(#{id}, #{pw}, #{name}, #{hpnum}, #{address})
+		insert into manager(id, pw, name, hpnum, shop, zipcode, address, address2) values(#{id}, #{pw}, #{name}, #{hpnum}, #{shop}, #{zipcode}, #{address}, #{address2})
 	</insert>
 	
 	<!-- 로그인 -->
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 관리자 정보 수정 -->
 	<update id="manUpdate" parameterType="com.hk.th.vo.ManagerVo">
-		update manager set pw=#{pw}, name=#{name}, hpnum=#{hpnum}, address=#{address}
+		update manager set pw=#{pw}, name=#{name}, hpnum=#{hpnum}, shop=#{shop}, zipcode=#{zipcode}, address=#{address}, address2=#{address2}
 		where id=#{id}
 	</update>
 	

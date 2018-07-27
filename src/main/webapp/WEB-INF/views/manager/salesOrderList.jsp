@@ -15,6 +15,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <link href="images/common/subway_favicon.ico?v=1" rel="shortcut icon" type="image/x-icon">
+<!-- // jQuery UI CSS파일  -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 <script>
 function selectEvent(selectObj) {
 	var keyWord = selectObj.value
@@ -24,11 +26,10 @@ function selectEvent(selectObj) {
 		show.innerHTML='<input name="keyValue" input id="search" type="text" class="form-control" placeholder="Search">';
 	}else if(keyWord =='status'){
 		show.innerHTML ='<select size="1" name="keyValue" class="select_type_1"><option value="결제완료">결제완료</option><option value="결제취소">결제취소</option></select>';
-	}else if(keyWord == 'regdate'){
-		show.innerHTML = '<div class="docs-datepicker"><div class="input-group"><input type="text" class="form-control docs-date" name="keyValue" placeholder=""></div><div class="docs-datepicker-container" style="display: none;"></div></div>';
-	}
+	}/* else if(keyWord == 'regdate'){
+		show.innerHTML ='<input name="keyValue" id="testDatepicker" type="text" class="form-control" autocomplete="off">';
+	} */
 }
-
 </script>
 </head>
 <body>
@@ -61,19 +62,20 @@ function selectEvent(selectObj) {
           <div class="orderlist-wrap col-xs-11">
             <div class="tit">
               <div class="search-wrap">
-                <form name="searchOrder" method="get" class="form-inline" role="search">
+                <form id="searchOrder" method="get" class="form-inline" role="search">
                   <div class="form-group">
                   	<label for="search">
 					<select size="1" name="keyWord" class="select_type_1" onChange="javascript:selectEvent(this)">
+                		<!-- <option value="regdate">날짜</option> -->
                 		<option value="ordernum">주문번호</option>
-                		<option value="regdate">날짜</option>
                 		<option value="status">상태</option>
               		</select>
-              		</label>
+              		</label>             		
               		<div id="show" style="display:  inline-block;">
-              			<input name="keyValue" input id="search" type="text" class="form-control" placeholder="Search">
+              			<!-- <input name="keyValue" id="testDatepicker" type="text" class="form-control" autocomplete="off"> -->
+              			<input name="keyValue" id="search" type="text" class="form-control" placeholder="Search">             			
               		</div>
-                    <button id="search-btn" type="submit" class="btn btn-default">Submit</button>
+                    <button id="search-btn" type="submit" class="btn btn-default">검색</button>
                   </div>
                 </form>
               </div>
@@ -131,15 +133,21 @@ function selectEvent(selectObj) {
 
 </section>
 <footer>
-
 </footer>
 <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
   <script src="https://fengyuanchen.github.io/js/common.js"></script>
-  <script src="js/datepicker.js"></script>
-  <script src="js/datepicker.en-US.js"></script>
-  <script src="js/datepicker.ko-KR.js"></script>
-  <script src="js/main.js"></script>
+
+<!-- // jQuery 기본 js파일 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<!-- // jQuery UI 라이브러리 js파일 -->
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
+  <script>
+  $(function() {
+	    $( "#testDatepicker" ).datepicker({
+	    });
+	});
+  </script>
 </body>
 </html>

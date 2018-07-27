@@ -8,8 +8,29 @@ public class ManagerVo {
 	private String pw;
 	private String name;
 	private String hpnum;
+	private String shop;
+	private String zipcode;
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
 	private String address;
+	private String address2;
 	
+	public String getShop() {
+		return shop;
+	}
+	public void setShop(String shop) {
+		this.shop = shop;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
 	public String getId() {
 		return id;
 	}

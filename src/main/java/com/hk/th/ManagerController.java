@@ -70,13 +70,23 @@ public class ManagerController {
 	
 	//관리자등록
 	@RequestMapping(value = "/manager/manInsert.do", method = RequestMethod.GET)
-	public String manInsert(Model model, ManagerVo manvo, HttpServletResponse response) throws Throwable {
+	public String manInsert(HttpServletRequest request, Model model, HttpServletResponse response) throws Throwable {
 				
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
 		int admincheck = mansv.getManager();
+		
+		ManagerVo manvo = new ManagerVo();
+		manvo.setId(request.getParameter("id"));
+		manvo.setPw(request.getParameter("pw"));
+		manvo.setName(request.getParameter("name"));
+		manvo.setHpnum(request.getParameter("hpnum"));
+		manvo.setShop(request.getParameter("shop"));
+		manvo.setZipcode(request.getParameter("zipcode"));
+		manvo.setAddress(request.getParameter("address"));
+		manvo.setAddress2(request.getParameter("address2"));
 		
 		if(admincheck != 0){
 			out.println("<script>alert('이미 등록된 관리자가 확인되어 로그인페이지로 이동합니다'); location.href='/manager/manLoginForm.do';</script>");
@@ -171,7 +181,10 @@ public class ManagerController {
 		manvo.setPw(request.getParameter("pw"));
 		manvo.setName(request.getParameter("name"));
 		manvo.setHpnum(request.getParameter("hpnum"));
+		manvo.setShop(request.getParameter("shop"));
+		manvo.setZipcode(request.getParameter("zipcode"));
 		manvo.setAddress(request.getParameter("address"));
+		manvo.setAddress2(request.getParameter("address2"));
 		
 		int res = mansv.manModi(manvo);
 		
@@ -601,7 +614,12 @@ public class ManagerController {
 	
 	//주문상세
 	@RequestMapping(value = "/manager/salesOrderDetail.do", method = RequestMethod.GET)
-	public String salesOrderDetail(HttpServletRequest request, Model model) {
+	public String salesOrderDetail(HttpServletRequest request, Model model, HttpSession session) {
+		
+
+		String userID = (String)session.getAttribute("id");
+		ManagerVo vo = mansv.getManagerInfo(userID);
+		model.addAttribute("user", vo);
 		
 		String ordernum = request.getParameter("ordernum");
 		ArrayList<SubwayVo> orderinfo = mansv.getOrderByOrderNum(ordernum);

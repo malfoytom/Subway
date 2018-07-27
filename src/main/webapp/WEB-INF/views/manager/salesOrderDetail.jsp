@@ -74,8 +74,9 @@ function print(){
               <div class="receipt">
                 <div class="receipt-header">
                   <img src="images/Subway_logo_emblem.png" alt="서브웨이로고">
-                  <p><span class="storename">${user.address}</span></p>
+                  <p><span class="storename">${user.shop}</span></p>
                   <p>대표자: ${user.name}<span class="right">TEL: ${user.hpnum}</span></p>
+                  <p>${user.zipcode} ${user.address} ${user.address2}</p>
                   <p class="center">www.subwaykorea.co.kr</p>
 
                 </div>
